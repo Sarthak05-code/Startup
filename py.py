@@ -1,1 +1,2 @@
-print("Enter the needed data")
+
+print("Call of duty")
