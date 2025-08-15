@@ -1,0 +1,1 @@
+print("Enter the needed data")
