@@ -126,7 +126,7 @@ a {
 .footer {
     text-align: center;
     padding: 30px;
-    border-top: 1px solid #21262d;
+    border-top: 1px solid #161b22;  /* more subtle */
     color: #444;
     font-size: 13px;
 }
