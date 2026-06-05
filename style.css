@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Fira+Code:wght@300;400;500&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'JetBrains Mono', monospace;
+    background-color: #0d1117;
+    color: #c9d1d9;
+}
+
+a {
+    text-decoration: none;
+    color: #c9d1d9;
+}
+
+.navbar {
+    display: flex;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 4px;
+}
+
+.container {
+    padding: 12px 20px;
+    background-color: #0d1117;
+    border-bottom: 1px solid #21262d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    padding: 10px;
+    font-size: 20px;
+    color: #4af0a0;
+    font-weight: 500;
+}
+
+.nav-links li a {
+    display: block;
+    padding: 7px 14px;
+    border-radius: 6px;
+    color: #8b949e;
+}
+
+.nav-links li a:hover {
+    background-color: #161b22;
+    color: #4af0a0;
+}
+
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    color: #c9d1d9;
+}
+
+.hero h1 {
+    font-size: 48px;
+    color: #4af0a0;
+    margin-bottom: 16px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 32px;
+    color: #8b949e;
+}
+
+.btn {
+    padding: 12px 28px;
+    border: 1px solid #4af0a0;
+    color: #4af0a0;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+}
+
+.btn:hover {
+    background-color: #4af0a0;
+    color: #0d1117;
+}
+
+.features {
+    display: flex;
+    gap: 20px;
+    padding: 60px 40px;
+    justify-content: center;
+}
+
+.card {
+    background: #161b22;
+    border: 1px solid #21262d;
+    border-radius: 10px;
+    padding: 30px;
+    width: 280px;
+    color: #c9d1d9;
+}
+
+.card h2 {
+    color: #4af0a0;
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
+.about {
+    text-align: center;
+    padding: 80px 40px;
+    max-width: 600px;
+    margin: 0 auto;
+    color: #8b949e;
+}
+
+.about h2 {
+    color: #c9d1d9;
+    margin-bottom: 16px;
+    font-size: 28px;
+}
+
+.footer {
+    text-align: center;
+    padding: 30px;
+    border-top: 1px solid #21262d;
+    color: #444;
+    font-size: 13px;
+}
+
+.card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease , transform 0.5s ease;
+}
+
+.card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}

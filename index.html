@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login-form</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+
+    <div class="container">
+      <div class="logo">MyLogo</div>
+      <nav class="navbar">
+        <ul class="nav-links">
+          <li><a href="">Home</a></li>
+          <li><a href="">About</a></li>
+          <li><a href="">Privacy</a></li>
+          <li><a href="">DMCA</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <section class="hero">
+      <h1>Welcome to MyLogo</h1>
+      <p>A place where cool things happen.</p>
+      <a href="" class="btn">Get Started</a>
+    </section>
+
+    <section class="features">
+      <div class="card">
+        <h2>Fast</h2>
+        <p>Built for speed and performance from the ground up.</p>
+      </div>
+      <div class="card">
+        <h2>Secure</h2>
+        <p>Your data is safe with end-to-end encryption.</p>
+      </div>
+      <div class="card">
+        <h2>Simple</h2>
+        <p>Clean interface that gets out of your way.</p>
+      </div>
+    </section>
+
+    <section class="about">
+      <h2>About Us</h2>
+      <p>We are a small team building tools that developers actually enjoy using. No bloat, no nonsense — just clean, fast software.</p>
+    </section>
+
+    <section class="features">
+      <div class="card">
+        <h2>Open Source</h2>
+        <p>Everything we build is open and transparent.</p>
+      </div>
+      <div class="card">
+        <h2>Community</h2>
+        <p>Join thousands of developers already using our tools.</p>
+      </div>
+      <div class="card">
+        <h2>Always Free</h2>
+        <p>Core features will always remain free. No surprises.</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>© 2025 MyLogo. All rights reserved.</p>
+    </footer>
+
+  </body>
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    });
+    document.querySelectorAll('.card').forEach(e1 => observer.observe(e1));
+  </script>
+</html>
