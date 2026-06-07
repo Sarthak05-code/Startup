@@ -1,100 +1,92 @@
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-family: "Inter", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
-
-
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 40px;
-    border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+  border-bottom: 1px solid #ddd;
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
 .navbar ul {
-    display: flex;
-    gap: 24px;
+  display: flex;
+  gap: 24px;
 }
 
 .navbar ul li {
-    list-style: none;
-    cursor: pointer;
+  list-style: none;
+  cursor: pointer;
 }
 
 .navbar ul li:hover {
-    color: blue;
-    text-decoration: underline;
+  color: blue;
+  text-decoration: underline;
 }
 
-
-
 .hero {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 80px 40px;
-    gap: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 80px 40px;
+  gap: 40px;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-    max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 500px;
 }
 
 .color-1 {
-    color: blue;
-    font-weight: 600;
+  color: blue;
+  font-weight: 600;
 }
 
 .container h1 {
-    font-size: 3.5rem;
-    line-height: 1.1;
+  font-size: 3.5rem;
+  line-height: 1.1;
 }
 
 .hero-description {
-    color: #555;
-    margin-top: 10px;
-    margin-bottom: 20px;
+  color: #555;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 button {
-    padding: 12px 24px;
-    background-color: black;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
+  padding: 12px 24px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 button:hover {
-    opacity: 0.9;
+  opacity: 0.9;
 }
-
-
 
 .image-container img {
-    width: 500px;
-    max-width: 100%;
-    border-radius: 12px;
+  width: 500px;
+  max-width: 100%;
+  border-radius: 12px;
 }
-
-
 
 .labels {
   display: flex;
@@ -103,247 +95,235 @@ button:hover {
 }
 
 .label {
-    width: 250px;
-    height: 120px;
-    padding: 15px;
-    margin: 10px;
+  width: 250px;
+  height: 120px;
+  padding: 15px;
+  margin: 10px;
 
-    border: 1px solid #ccc;
-    border-radius: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
 
-    box-sizing: border-box;
+  box-sizing: border-box;
 
-    background-color: rgb(233, 210, 233);
+  background-color: rgb(233, 210, 233);
 
-    text-align: center;
-    align-content: center;
-    
+  text-align: center;
+  align-content: center;
 }
 
 .label h3 {
-    margin-bottom: 8px;
-    font-size: 1rem;
+  margin-bottom: 8px;
+  font-size: 1rem;
 }
 
 .label p {
-    color: #555;
-    font-size: 0.9rem;
+  color: #555;
+  font-size: 0.9rem;
 }
 
 .product-showcase {
-    padding: 40px;
+  padding: 40px;
 }
 
-
-
 .section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-    margin-bottom: 30px;
+  margin-bottom: 30px;
 }
 
 .section-header h2 {
-    font-size: 28px;
+  font-size: 28px;
 }
 
 .section-header a {
-    text-decoration: none;
-    color: black;
-    font-weight: 500;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
 }
-
-
 
 .images-holder {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
 }
 
-
-
 .product-card {
-    width: 240px;
+  width: 240px;
 }
 
 .product-card img {
-    width: 100%;
-    height: 240px;
+  width: 100%;
+  height: 240px;
 
-    object-fit: cover;
+  object-fit: cover;
 
-    background-color: #f5f5f7;
+  background-color: #f5f5f7;
 
-    border-radius: 12px;
+  border-radius: 12px;
 
-    padding: 16px;
+  padding: 16px;
 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-
-
 .product-info {
-    margin-top: 12px;
+  margin-top: 12px;
 }
 
 .product-info h4 {
-    margin-bottom: 8px;
-    font-size: 15px;
-    font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 600;
 }
 
 .price {
-    color: #555;
-    margin-bottom: 12px;
+  color: #555;
+  margin-bottom: 12px;
 }
 
-
-
 .bottom-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .rating {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .cart-btn {
-    width: 34px;
-    height: 34px;
+  width: 34px;
+  height: 34px;
 
-    border: none;
-    border-radius: 8px;
+  border: none;
+  border-radius: 8px;
 
-    background: #111;
-    color: white;
+  background: #111;
+  color: white;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    cursor: pointer;
+  cursor: pointer;
 }
 
-
 .footer-sec {
-    margin-top: 60px;
-    padding: 30px;
-    border-top: 1px solid #ddd;
+  margin-top: 60px;
+  padding: 30px;
+  border-top: 1px solid #ddd;
 }
 
 footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
 footer h2 {
-    margin: 0;
+  margin: 0;
 }
 
 .bottom-texts {
-    display: flex;
-    gap: 25px;
-    flex-wrap: wrap;
-    justify-content: center;
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .bottom-texts p {
-    margin: 0;
-    cursor: pointer;
-    color: #555;
+  margin: 0;
+  cursor: pointer;
+  color: #555;
 }
 
 .bottom-texts p:hover {
-    color: blue;
+  color: blue;
 }
 
 .trademark {
-    width: 100%;
-    text-align: center;
-    border-top: 1px solid #eee;
-    padding-top: 15px;
-    color: #777;
-    font-size: 14px;
+  width: 100%;
+  text-align: center;
+  border-top: 1px solid #eee;
+  padding-top: 15px;
+  color: #777;
+  font-size: 14px;
 }
 
 .profile img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-    display: block;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
 }
 
 .profile li {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .image-wrapper {
-    position: relative;
+  position: relative;
 
-    background-color: #f5f5f7;
-    border-radius: 12px;
+  background-color: #f5f5f7;
+  border-radius: 12px;
 
-    padding: 16px;
+  padding: 16px;
 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .wishlist {
-    position: absolute;
+  position: absolute;
 
-    top: 12px;
-    right: 12px;
+  top: 12px;
+  right: 12px;
 
-    width: 32px;
-    height: 32px;
+  width: 32px;
+  height: 32px;
 
-    background: white;
+  background: white;
 
-    border-radius: 50%;
+  border-radius: 50%;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    cursor: pointer;
+  cursor: pointer;
 
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .badge {
-    position: absolute;
+  position: absolute;
 
-    top: 12px;
-    left: 12px;
+  top: 12px;
+  left: 12px;
 
-    padding: 6px 12px;
+  padding: 6px 12px;
 
-    border-radius: 20px;
+  border-radius: 20px;
 
-    font-size: 12px;
-    font-weight: 600;
+  font-size: 12px;
+  font-weight: 600;
 }
 
 .discount {
-    background: #ffebeb;
-    color: #d62828;
+  background: #ffebeb;
+  color: #d62828;
 }
 
 .new {
-    background: blue;
-    color: white;
+  background: blue;
+  color: white;
 }
