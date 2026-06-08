@@ -123,6 +123,7 @@ button:hover {
 
 .product-showcase {
   padding: 40px;
+  
 }
 
 .section-header {
@@ -146,7 +147,7 @@ button:hover {
 .images-holder {
   display: flex;
   justify-content: center;
-  gap: 24px;
+  gap: 30px;
   flex-wrap: wrap;
 }
 
