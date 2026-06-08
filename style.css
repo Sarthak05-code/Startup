@@ -327,3 +327,12 @@ footer h2 {
   background-color: #2563eb;
   color: white;
 }
+
+.discount:hover {
+  background-color: #555;
+  color: white ;
+}
+
+.new:hover {
+  background-color: #555;
+}
