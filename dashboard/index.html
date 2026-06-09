@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeVault • Demo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">CodeVault</div>
+            
+            <div class="nav">
+                <a href="#" class="nav-item active">Dashboard</a>
+                <a href="#" class="nav-item">Repository</a>
+                <a href="#" class="nav-item">Snippets</a>
+                <a href="#" class="nav-item">Issues</a>
+                <a href="#" class="nav-item">Pull Requests</a>
+            </div>
+
+            <div class="project-header">
+                <strong>my-awesome-project</strong>
+            </div>
+
+            <div class="file-list">
+                <div class="file-header">Files</div>
+                <div class="file-item">main.py</div>
+                <div class="file-item">utils.js</div>
+                <div class="file-item">index.html</div>
+            </div>
+
+            <button class="new-btn">+ New Snippet</button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main">
+            <div class="topbar">
+                <div class="repo-info">
+                    <span class="repo-name">my-awesome-project</span>
+                    <span class="branch">main</span>
+                </div>
+                <button class="btn-primary">New Snippet</button>
+            </div>
+
+            <div class="content">
+                <h1>Project Dashboard</h1>
+                
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Snippets</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Commits</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Contributors</div>
+                    </div>
+                </div>
+
+                <h2>Your Snippets</h2>
+                <div class="snippets-grid">
+                    <!-- Snippet 1 -->
+                    <div class="snippet-card">
+                        <div class="card-header">
+                            <span class="filename">main.py</span>
+                            <span class="lang">python</span>
+                        </div>
+                        <pre class="card-code">def hello_world():
+    print("Hello from CodeVault!")
+
+if __name__ == "__main__":
+    hello_world()</pre>
+                    </div>
+
+                    <!-- Snippet 2 -->
+                    <div class="snippet-card">
+                        <div class="card-header">
+                            <span class="filename">utils.js</span>
+                            <span class="lang">javascript</span>
+                        </div>
+                        <pre class="card-code">function sum(a, b) {
+    return a + b;
+}</pre>
+                    </div>
+
+                    <!-- Snippet 3 -->
+                    <div class="snippet-card">
+                        <div class="card-header">
+                            <span class="filename">index.html</span>
+                            <span class="lang">html</span>
+                        </div>
+                        <pre class="card-code">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Demo&lt;/title&gt;
+&lt;/head&gt;</pre>
+                    </div>
+                </div>
+
+                <!-- Example Full View -->
+                <h2 style="margin-top: 50px;">Viewing: main.py</h2>
+                <div class="view-area">
+                    <div class="view-header">
+                        <strong>main.py</strong>
+                        <span class="lang">python</span>
+                    </div>
+                    <pre class="code-display">def hello_world():
+    print('Hello from CodeVault!')
+
+if __name__ == '__main__':
+    hello_world()</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
