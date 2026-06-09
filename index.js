@@ -25,4 +25,18 @@ const age = 20;
 console.log(age);
 
 
+let value = 20;
 
+console.log(value >= 18 ? "Legal" : "Minor");
+
+
+
+
+const number = 20
+
+if(number % 2 == 0)
+    console.log("Even");
+else
+    console.log("Odd");
+    
+    
