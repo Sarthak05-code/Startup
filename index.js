@@ -1,31 +1,25 @@
-const obj = {
-    name : "Sarthak",
-    age : 20 , 
-    class : "BCA"
+/*
+
+    This below code is done for practice. 
+
+*/
+
+function caller(name , age , password) {
+    const nameCheck = name;
+    const ageCheck = age;
+    const passwordCheck = password;
+
+    return (ageCheck >= 18) ? "Legal" : "Minor";
+
+
+    
 }
 
-console.log(obj);
+const answer = caller("Sarthak" , 20, 123456)
 
-const objArray = {
-     array : [1,2,3,4,5],
-     returnIndex : function(i) {
-        return objArray.array[i]
-     }
-     
-}
-objArray.array.push(6)
-
-
-console.log(objArray.array);
-
-objArray.array.pop()
-
-console.log(objArray.array);
-
-console.log("The index is : ", objArray.returnIndex(3));
-
-
-
-
-
-
+if(answer === "Legal")
+    console.log("Valid");
+else
+    console.log("Not-Valid");
+    
+    
