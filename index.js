@@ -1,4 +1,3 @@
-
 const obj = {
     name : "Sarthak",
     age : 20 , 
@@ -23,8 +22,8 @@ objArray.array.pop()
 
 console.log(objArray.array);
 
-console.log("The index is : ");
-console.log(objArray.returnIndex(3));
+console.log("The index is : ", objArray.returnIndex(3));
+
 
 
 
