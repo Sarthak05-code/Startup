@@ -1,6 +1,4 @@
 
-
-
 const obj = {
     name : "Sarthak",
     age : 20 , 
@@ -11,7 +9,7 @@ console.log(obj);
 
 const objArray = {
      array : [1,2,3,4,5],
-     returnIndex : function index(i) {
+     returnIndex : function(i) {
         return objArray.array[i]
      }
      
