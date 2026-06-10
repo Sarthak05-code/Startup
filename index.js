@@ -1,59 +1,34 @@
-console.log("Name is shame ");
-
-let a;
-
-a = 10;
-
-console.log(a);
-
-var b;
-
-b = 10;
-console.log(b);
-
-
-const c = 10 ;
-
-console.log(c);
-
-// info
-
-const name = "Sarthak"
-console.log(name);
-
-const age = 20;
-console.log(age);
-
-
-let value = 20;
-
-console.log(value >= 18 ? "Legal" : "Minor");
 
 
 
+const obj = {
+    name : "Sarthak",
+    age : 20 , 
+    class : "BCA"
+}
 
-const number = 20;
+console.log(obj);
 
-if(number % 2 == 0)
-    console.log("Even");
-else
-    console.log("Odd");
-    
+const objArray = {
+     array : [1,2,3,4,5],
+     returnIndex : function index(i) {
+        return objArray.array[i]
+     }
+     
+}
+objArray.array.push(6)
 
-console.log( number % 2 == 0 ? "even" : "odd");
 
-    
+console.log(objArray.array);
 
-// works
+objArray.array.pop()
 
-const a1 = 10 , b1 = 11 , c1 = 20;
+console.log(objArray.array);
 
-if(a1 > b1 && a1 > c1)
-    console.log("A is the greatest");
-else if (b1 > a1 && b1 > c1)
-    console.log("B is the greatest");
-else
-    console.log("C is the greatest");
-    
-    
-    
+console.log("The index is : ");
+console.log(objArray.returnIndex(3));
+
+
+
+
+
