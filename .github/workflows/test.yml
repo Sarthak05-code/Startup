@@ -38,10 +38,32 @@ jobs:
           cache: maven
           cache-dependency-path: demo/pom.xml
 
+      - name: Wait for MySQL
+        run: |
+          for i in {1..30}; do
+            mysqladmin ping -h 127.0.0.1 -P 3306 -u root -proot --silent && break
+            echo "Waiting for MySQL..."
+            sleep 2
+          done
+
       - name: Build with Maven
         working-directory: ./demo
-        run: mvn -B clean package
+        run: mvn -B clean verify
         env:
           SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/Main
           SPRING_DATASOURCE_USERNAME: root
           SPRING_DATASOURCE_PASSWORD: root
+
+      - name: Upload build artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jar-file
+          path: demo/target/*.jar
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: demo/target/surefire-reports/
