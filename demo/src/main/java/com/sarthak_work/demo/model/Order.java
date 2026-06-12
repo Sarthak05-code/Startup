@@ -2,12 +2,16 @@ package com.sarthak_work.demo.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMin;
@@ -15,10 +19,12 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
-@Table (name = "orders")
+@Table(name = "orders")
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,19 +35,25 @@ public class Order {
     private Long id;
 
     @NotBlank(message = "Name Required")
-    @Column(name = "customer_name" , nullable = false)
+    @Column(name = "customer_name", nullable = false)
     private String customerName;
 
     @NotBlank(message = "Email Required")
-    @Column(name = "customer_email" , nullable = false)
+    @Column(name = "customer_email", nullable = false)
     private String customerEmail;
 
     @Column(nullable = false)
     private String status;
 
-    @DecimalMin(value = "0.0" , inclusive = true , message = "Price can't be less than zero")
-    @Column(name = "total_price" , nullable = false)
+    @DecimalMin(value = "0.0", inclusive = true, message = "Price can't be less than zero")
+    @Column(name = "total_price", nullable = false)
     private BigDecimal totalPrice;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
+    @OneToMany(mappedBy = "order")
+    private List<OrderItem> orderItem;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -49,7 +61,7 @@ public class Order {
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
-        if(this.status == null) {
+        if (this.status == null) {
             this.status = "PENDING";
         }
     }
