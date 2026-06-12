@@ -36,10 +36,10 @@ jobs:
           java-version: "25"
           distribution: "temurin"
           cache: maven
-          cache-dependency-path: sarthak_work/pom.xml
+          cache-dependency-path: demo/pom.xml
 
       - name: Build with Maven
-        working-directory: ./sarthak_work
+        working-directory: ./demo
         run: mvn -B clean package
         env:
           SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3306/Main
