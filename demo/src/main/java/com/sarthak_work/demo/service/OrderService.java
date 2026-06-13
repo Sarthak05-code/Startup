@@ -4,13 +4,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import org.springframework.stereotype.Service;
-
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.sarthak_work.demo.dto.OrderItemRequest;
 import com.sarthak_work.demo.dto.OrderRequest;
+import com.sarthak_work.demo.exception.InsufficientStockException;
+import com.sarthak_work.demo.exception.ResourceNotFoundException;
 import com.sarthak_work.demo.model.Order;
 import com.sarthak_work.demo.model.OrderItem;
 import com.sarthak_work.demo.model.Product;
@@ -36,32 +35,29 @@ public class OrderService {
         order.setCustomerEmail(orderRequest.getCustomerEmail());
         order.setStatus("Confirmed");
 
-        for(OrderItemRequest itemRequest : orderRequest.getItems()) {
-                Product product = productRepository.findById(itemRequest.getProductId()).orElseThrow(() -> new RuntimeException("Can't fine the product" + itemRequest.getProductId()));
-                
-                // check the product stock
-                if(product.getStockQuantity() < itemRequest.getQuantity()) {
-                    throw new RuntimeException("Not enough stock!");
-                }
+        for (OrderItemRequest itemRequest : orderRequest.getItems()) {
+            Product product = productRepository.findById(itemRequest.getProductId())
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Can't find the product: " + itemRequest.getProductId()));
 
-                //Calculate total price
-                BigDecimal priceOfItem = product.getPrice().multiply(BigDecimal.valueOf(itemRequest.getQuantity()));
-                totalPrice = totalPrice.add(priceOfItem);
+            if (product.getStockQuantity() < itemRequest.getQuantity()) {
+                throw new InsufficientStockException("Not enough stock for: " + product.getName());
+            }
 
-                //update stock
-                product.setStockQuantity(product.getStockQuantity() - itemRequest.getQuantity())
-                ;
-                productRepository.save(product);
+            BigDecimal priceOfItem = product.getPrice().multiply(BigDecimal.valueOf(itemRequest.getQuantity()));
+            totalPrice = totalPrice.add(priceOfItem);
 
-                //Builder pattern
-                OrderItem orderItem = OrderItem.builder()
-                        .order(order)
-                        .product(product)
-                        .quantity(itemRequest.getQuantity())
-                        .priceAtPurchase(product.getPrice())
-                        .build();
+            product.setStockQuantity(product.getStockQuantity() - itemRequest.getQuantity());
+            productRepository.save(product);
 
-                orderItems.add(orderItem);
+            OrderItem orderItem = OrderItem.builder()
+                    .order(order)
+                    .product(product)
+                    .quantity(itemRequest.getQuantity())
+                    .priceAtPurchase(product.getPrice())
+                    .build();
+
+            orderItems.add(orderItem);
         }
 
         order.setTotalPrice(totalPrice);
@@ -69,15 +65,12 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-
-    
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
-    
-    public Order getOrderById(@PathVariable Long id) {
-        return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("The product id wasn't able to be found."));
+    public Order getOrderById(Long id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found: " + id));
     }
-    
 }

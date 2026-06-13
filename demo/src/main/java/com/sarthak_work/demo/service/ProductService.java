@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.sarthak_work.demo.exception.ResourceNotFoundException;
 import com.sarthak_work.demo.model.Product;
 import com.sarthak_work.demo.repository.ProductRepository;
 
@@ -16,12 +17,16 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public void deleteProduct(Long id) {
+        
+        if(!productRepository.existsById(id)) {
+            throw new ResourceNotFoundException("This product doesn't exist: " + id);
+        }
         productRepository.deleteById(id);
     }
 
     public Product getProductbyId(Long id) {
         return productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("This product was not Found."));
+                .orElseThrow(() -> new ResourceNotFoundException("This product was not Found." + id));
     }
 
     public List<Product> getProducts() {
@@ -30,7 +35,7 @@ public class ProductService {
 
     public Product updateProduct(Long id, Product product) {
         Product existingProduct = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("This product was not Found."));
+                .orElseThrow(() -> new ResourceNotFoundException("This product was not Found." + id));
 
         existingProduct.setName(product.getName());
         existingProduct.setDescription(product.getDescription());
