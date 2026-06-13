@@ -2,7 +2,8 @@ package com.sarthak_work.demo.model;
 
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 
 import jakarta.persistence.Column;
@@ -37,7 +38,7 @@ public class OrderItem {
     @Column(name = "price_at_purchase", nullable = false)
     private BigDecimal priceAtPurchase;
 
-    @JsonManagedReference
+    @JsonBackReference
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToOne
