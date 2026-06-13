@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.springframework.stereotype.Service;
+
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.sarthak_work.demo.dto.OrderItemRequest;
 import com.sarthak_work.demo.dto.OrderRequest;
@@ -66,4 +69,15 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+
+    
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+
+    
+    public Order getOrderById(@PathVariable Long id) {
+        return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("The product id wasn't able to be found."));
+    }
+    
 }
