@@ -12,6 +12,7 @@ import com.sarthak_work.demo.exception.InsufficientStockException;
 import com.sarthak_work.demo.exception.ResourceNotFoundException;
 import com.sarthak_work.demo.model.Order;
 import com.sarthak_work.demo.model.OrderItem;
+import com.sarthak_work.demo.model.OrderStatus;
 import com.sarthak_work.demo.model.Product;
 import com.sarthak_work.demo.repository.OrderRepository;
 import com.sarthak_work.demo.repository.ProductRepository;
@@ -33,7 +34,7 @@ public class OrderService {
         Order order = new Order();
         order.setCustomerName(orderRequest.getCustomerName());
         order.setCustomerEmail(orderRequest.getCustomerEmail());
-        order.setStatus("Confirmed");
+        order.setStatus(OrderStatus.PENDING);
 
         for (OrderItemRequest itemRequest : orderRequest.getItems()) {
             Product product = productRepository.findById(itemRequest.getProductId())

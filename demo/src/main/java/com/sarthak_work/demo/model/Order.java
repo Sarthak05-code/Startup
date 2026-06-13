@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -44,8 +46,9 @@ public class Order {
     @Column(name = "customer_email", nullable = false)
     private String customerEmail;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String status;
+    private OrderStatus status;
 
     @DecimalMin(value = "0.0", inclusive = true, message = "Price can't be less than zero")
     @Column(name = "total_price", nullable = false)
@@ -65,7 +68,7 @@ public class Order {
     public void prePersist() {
         this.createdAt = LocalDateTime.now();
         if (this.status == null) {
-            this.status = "PENDING";
+            this.status = OrderStatus.PENDING;
         }
     }
 
