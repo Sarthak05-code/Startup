@@ -2,6 +2,9 @@ package com.sarthak_work.demo.model;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,6 +37,7 @@ public class OrderItem {
     @Column(name = "price_at_purchase", nullable = false)
     private BigDecimal priceAtPurchase;
 
+    @JsonManagedReference
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToOne
