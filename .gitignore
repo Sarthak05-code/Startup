@@ -1,0 +1,12 @@
+# Zig build caches and outputs
+.zig-cache/
+zig-out/
+
+# Operating System specific files
+Thumbs.db
+.DS_Store
+
+# Editor-specific artifacts (optional but recommended)
+.idea/
+.vscode/
+.zed/
