@@ -1,32 +1,25 @@
 const std = @import("std");
 
-const Operation = enum {
-    add,
-    product,
-};
-
-fn calculator(comptime op: Operation, a: i32, b: i32) i32 {
-    return switch (op) {
-        .add => a + b,
-        .product => a * b,
+fn checker(x: i32) []const u8 {
+    return switch (x) {
+        0 => "Zero",
+        else => if (@mod(x, 2) == 0)
+            "Even"
+        else
+            "Odd",
     };
 }
 
-fn divide(a: i32, b: i32) !i32 {
-    if (b == 0) {
-        return error.DivideByZero;
-    }
-    return @divTrunc(a, b);
-}
-
-fn calculate() !void {
-    const result = try divide(10, 0);
-    std.debug.print("{}\n", .{result});
+fn fibonacci(x: i32) i32 {
+    if (x <= 1) // 0 and 1
+        return x;
+    return fibonacci(x - 2) + fibonacci(x - 1);
 }
 
 pub fn main() !void {
-    std.debug.print("{}\n", .{calculator(.add, 4, 5)});
-    std.debug.print("{}\n", .{calculator(.product, 4, 45)});
+    const array: [10]u8 = .{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-    try calculate();
+    for (array) |arr| {
+        std.debug.print("{} => {s} and Fibonacci-Sequence => {}\n", .{ arr, checker(arr), fibonacci(arr) });
+    }
 }
