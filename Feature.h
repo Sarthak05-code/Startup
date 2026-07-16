@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 void panic(const char *message);
 
@@ -46,6 +47,16 @@ void panic(const char *message);
     }                                                                          \
     strncpy((output_buf), (filename), len);                                    \
     (output_buf)[len] = '\0'; /* Manually null-terminate */                    \
+  } while (0)
+
+/* Time tracer program */
+#define TraceTime(block_name, block_code)                                      \
+  do {                                                                         \
+    clock_t start = clock();                                                   \
+    block_code;                                                                \
+    clock_t end = clock();                                                     \
+    double cpu_time = ((double)(end - start)) / CLOCKS_PER_SEC;                \
+    fprintf(stdout, "[PERF]: '%s' took %lf seconds\n", block_name, cpu_time);    \
   } while (0)
 
 #endif

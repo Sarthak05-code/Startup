@@ -2,7 +2,17 @@
 #include <stdio.h>
 void caller(void);
 
+void timeRunner(void) {
+  char clean_name[256];
+  TraceTime(
+      "Strip Extension loop: ", for (int i = 0; i < 1000000; ++i) {
+        extension_remover("my_test_file.png.img", clean_name,
+                          sizeof(clean_name));
+      });
+}
+
 int main(void) {
+  timeRunner();
   const char *c = "family.txt";
 
   if (c == NULL) {
