@@ -8,9 +8,15 @@
 
 void panic(const char *message);
 
+#define __FILENAME__                                                           \
+  (strrchr(__FILE__, '\\')                                                     \
+       ? strrchr(__FILE__, '\\') + 1                                           \
+       : (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__))
+
 #define Panic(fmt, ...)                                                        \
   do {                                                                         \
-    fprintf(stderr, "PANIC: " fmt "\n", ##__VA_ARGS__);                        \
+    fprintf(stderr, "PANIC [%s:%d]: " fmt "\n", __FILENAME__, __LINE__,        \
+            ##__VA_ARGS__);                                                    \
     exit(1);                                                                   \
   } while (0)
 
@@ -36,6 +42,7 @@ void panic(const char *message);
     /* Ensure we don't overflow our output buffer */                           \
     if (len >= (buf_size)) {                                                   \
       len = (buf_size) - 1;                                                    \
+      Panic("Output buffer too small for stripped filename");                  \
     }                                                                          \
     strncpy((output_buf), (filename), len);                                    \
     (output_buf)[len] = '\0'; /* Manually null-terminate */                    \

@@ -24,7 +24,7 @@ void caller(void) {
 
   const char *filename = NULL;
 up:
-  Panic("The function did run");
+  Panic("The function did not run further");
 
   while (1) {
     if (filename == NULL)
