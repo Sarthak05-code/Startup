@@ -6,14 +6,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
+// A function to make a panic caller. 
 void panic(const char *message);
 
 #define __FILENAME__                                                           \
   (strrchr(__FILE__, '\\')                                                     \
        ? strrchr(__FILE__, '\\') + 1                                           \
        : (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__))
-
+// rust type of panic in c. 
 #define Panic(fmt, ...)                                                        \
   do {                                                                         \
     fprintf(stderr, "PANIC [%s:%d]: " fmt "\n", __FILENAME__, __LINE__,        \
