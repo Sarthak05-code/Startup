@@ -65,7 +65,7 @@ up:
   Panic("The function did not run further");
 
   while (1) {
-    if (filename == NULL)
+    if (filename == novalue)
       goto up;
     else
       printf("The file name is : %s", filename);
