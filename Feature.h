@@ -57,6 +57,6 @@
     fprintf(stdout, "[PERF]: '%s' took %lf seconds\n", block_name, cpu_time);    \
   } while (0)
 
-#define novalue NULL
+#define Novalue NULL
 
 #endif
