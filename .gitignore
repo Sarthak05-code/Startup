@@ -12,3 +12,5 @@ Thumbs.db
 .zed/
 .clangd
 *.exe
+#just here so i dont need a readme.md 
+readme.md
