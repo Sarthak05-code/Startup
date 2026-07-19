@@ -19,6 +19,5 @@ void anotherGotoTester(void) {
 
 int main(void) {
   printf("This is the program\n");
-
   gotoTester();
 }
