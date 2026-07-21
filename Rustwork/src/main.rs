@@ -1,26 +1,37 @@
-use std::io;
-
-fn even_or_odd(n: i32) -> &'static str {
-    if n % 2 == 0 {
-        "Even"
-    } else {
-        "Odd"
-    }
-}
-
 fn main() {
-    let array_values: Vec<i32> = vec![1, 2, 3, 4, 5];
-    println!("Enter an index (0-4): ");
+    // _ ensure the compiler won't ask about the used array
+    let _demo_array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-    let mut value = String::new();
-    io::stdin()
-        .read_line(&mut value)
-        .expect("Please enter a valid input");
+    let array_first_name = [
+        "Sarthak",
+        "Sagar",
+        "Sangam",
+        "Shavya",
+        "Shuvam",
+        "Shreeya",
+        "Sneha",
+        "Sampradha",
+        "Supnil",
+        "Sudil",
+    ];
 
-    let index: usize = value.trim().parse().expect("Error, enter a valid number");
-
-    match array_values.get(index) {
-        Some(val) => println!("Value at index {index}: {val} is {}", even_or_odd(*val)),
-        None => println!("Index {index} is out of bounds"),
+    let array_last_name = [
+        "Thapa",
+        "Baskoti",
+        "Manandhar",
+        "Dangol",
+        "Shah",
+        "Shrestha",
+        "Sigdel",
+        "Bajracharya",
+        "Basnet",
+        "Maharjan",
+    ];
+    // seems confusing, but ill learn this slowly.
+    for (first, last) in array_first_name
+        .iter()
+        .flat_map(|f| array_last_name.iter().map(move |l| (f, l)))
+    {
+        println!("{} {}", first, last);
     }
 }
