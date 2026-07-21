@@ -1,38 +1,26 @@
 use std::io;
 
-fn fibonacci(n: u32, memo: &mut Vec<u64>) -> u64 {
-    if n == 0 {
-        return 0;
+fn even_or_odd(n: i32) -> &'static str {
+    if n % 2 == 0 {
+        "Even"
+    } else {
+        "Odd"
     }
-    if n <= 2 {
-        return 1;
-    }
-    // Check if already computed
-    if memo[n as usize] != 0 {
-        return memo[n as usize];
-    }
-    let result = fibonacci(n - 1, memo) + fibonacci(n - 2, memo);
-    memo[n as usize] = result;
-    result
 }
 
 fn main() {
-    println!("Enter a number: ");
-    let mut input = String::new();
-    io::stdin().read_line(&mut input).unwrap();
+    let array_values: Vec<i32> = vec![1, 2, 3, 4, 5];
+    println!("Enter an index (0-4): ");
 
-    match input.trim().parse::<u32>() {
-        Ok(n) => {
-            // Pre-allocate memo with zeros; index 0 unused for simplicity
-            let mut memo = vec![0u64; (n + 1) as usize];
-            
-            print!("Fibonacci sequence: ");
-            for i in 0..=n {
-                let result = fibonacci(i, &mut memo);
-                print!("{result} ");
-            }
-            println!();
-        }
-        Err(_) => println!("Please enter a valid non-negative number."),
+    let mut value = String::new();
+    io::stdin()
+        .read_line(&mut value)
+        .expect("Please enter a valid input");
+
+    let index: usize = value.trim().parse().expect("Error, enter a valid number");
+
+    match array_values.get(index) {
+        Some(val) => println!("Value at index {index}: {val} is {}", even_or_odd(*val)),
+        None => println!("Index {index} is out of bounds"),
     }
 }
