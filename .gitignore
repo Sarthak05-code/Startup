@@ -1,16 +1,73 @@
-# Zig build caches and outputs
+# ==========================================
+# Build Artifacts & Caches
+# ==========================================
+# Zig
 .zig-cache/
 zig-out/
 
-# Operating System specific files
-Thumbs.db
-.DS_Store
+# Rust
+target/
+**/*.rs.bk
+*.pdb
 
-# Editor-specific artifacts (optional but recommended)
+# General Binaries & Executables
+*.exe
+*.dll
+*.so
+*.dylib
+*.bin
+*.out
+*.a
+*.o
+
+# ==========================================
+# Editors & IDEs
+# ==========================================
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# JetBrains (IntelliJ, CLion, RustRover, etc.)
 .idea/
-.vscode/
+
+# Zed, SubLime, Neovim/Vim, Emacs
 .zed/
 .clangd
-*.exe
-#just here so i dont need a readme.md 
+*.swp
+*.swo
+*~
+.netrwhist
+
+# ==========================================
+# Operating System Files
+# ==========================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthmb.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+.directory
+
+# ==========================================
+# Environment & Logs
+# ==========================================
+*.log
+.env
+.env.*
+!.env.example
+
+# Custom exclusions from original file
 readme.md
+Rustwork/target/

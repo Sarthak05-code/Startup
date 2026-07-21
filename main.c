@@ -1,23 +1,24 @@
 #include "Feature.h"
 #include <stdio.h>
 
-volatile int number = 10;
-
-void gotoTester(void) {
-error:
-  panic("This runs when we find an error: \n");
-
-  if (number == 10) {
-    goto error;
-  }
-  printf("This won't run if the value is 10: \n");
-}
-
-void anotherGotoTester(void) {
-  (void)printf("Typecasting a printf with void... will there be any change?\n");
-}
-
 int main(void) {
-  printf("This is the program\n");
-  gotoTester();
+  char buffer[256];
+
+  extension_remover("document.pdf", buffer, sizeof(buffer));
+
+  printf("Stripped: %s\n", buffer);
+
+  int *array = safe_malloc(100 * sizeof(int));
+  defer_free(array);
+
+  for (int i = 0; i < 100; ++i) {
+    array[i] = i;
+  }
+
+  TraceTimeWall("Loop Test", {
+    for (volatile int i = 0; i < 100000; ++i)
+      ;
+  });
+
+  return 0;
 }
