@@ -1,55 +1,69 @@
-//for trapezoid method
-fn function(x: f64) -> f64 {
+// Math functions to integrate
+fn f_trapezoid(x: f64) -> f64 {
     (4.0 * x.exp()) / (1.0 + x.powf(3.0))
 }
 
-fn trapezoid_rule(a: f64, b: f64, n: i32) -> f64 {
+fn f_simpson(x: f64) -> f64 {
+    x.tan()
+}
+
+
+fn trapezoid_rule(f: fn(f64) -> f64, a: f64, b: f64, n: usize) -> f64 {
     let h = (b - a) / n as f64;
-    let mut sum = function(a) + function(b);
+    let mut sum = f(a) + f(b);
+
     for i in 1..n {
         let x = a + i as f64 * h;
-        sum += function(x);
+        sum += 2.0 * f(x); 
     }
-    h * sum
+
+    (h / 2.0) * sum
 }
 
-// for simpson 1/3 method
-fn another_function(x: f64) -> f64 {
-    x.tan() // change it to whatever you wish, i'll test with tan
-}
+// Fixed Simpson's 1/3 Rule
+fn simpson_rule(f: fn(f64) -> f64, a: f64, b: f64, n: usize) -> Result<f64, &'static str> {
+    if n % 2 != 0 {
+        return Err("Simpson's 1/3 rule requires n to be even.");
+    }
 
-fn simpson_rule(b: f64, a: f64, n: i32) -> f64 {
     let h = (b - a) / n as f64;
-    let mut sum = another_function(a) + another_function(b);
+    let mut sum = f(a) + f(b);
+
     for i in 1..n {
         let x = a + i as f64 * h;
         if i % 2 == 0 {
-            sum += 2.0 * another_function(x);
+            sum += 2.0 * f(x);
         } else {
-            sum += 4.0 * another_function(x);
+            sum += 4.0 * f(x);
         }
     }
-    return (h / 3.0) * sum;
+
+    Ok((h / 3.0) * sum)
 }
 
 fn main() {
-    let mut a = 0.0;
-    let mut b = 2.0;
-    let n = [10, 20, 45, 77, 100];
+    // --- Trapezoidal Rule ---
+    let a_trap = 0.0;
+    let b_trap = 2.0;
+    let n_trap = [10, 20, 45, 77, 100];
 
-    for i in 0..n.len() {
-        let result = trapezoid_rule(a, b, n[i]);
-        println!(
-            "At n : {}, Numerical integration rule : {:.2}",
-            n[i], result
-        );
+    println!("--- Trapezoidal Rule ---");
+    for &n in &n_trap {
+        let result = trapezoid_rule(f_trapezoid, a_trap, b_trap, n);
+        println!("At n = {:3}: Result = {:.6}", n, result);
     }
 
-    a = 1.0;
-    b = 3.0;
-    for i in 0..n.len() {
-        // we can use result again as it is inside a loop.
-        let result = simpson_rule(b, a, n[i]);
-        println!("At n : {}, The simpson 1/3 answer is : {:.2}", n[i], result);
+    // --- Simpson's 1/3 Rule ---
+    let a_simp = 1.0;
+    let b_simp = 3.0;
+    // Note: n must be even for Simpson's 1/3 Rule
+    let n_simp = [10, 20, 46, 78, 100]; 
+
+    println!("\n--- Simpson's 1/3 Rule ---");
+    for &n in &n_simp {
+        match simpson_rule(f_simpson, a_simp, b_simp, n) {
+            Ok(result) => println!("At n = {:3}: Result = {:.6}", n, result),
+            Err(err) => println!("At n = {:3}: Error -> {}", n, err),
+        }
     }
 }
