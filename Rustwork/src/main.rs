@@ -57,7 +57,7 @@ fn main() {
     let a_simp = 1.0;
     let b_simp = 3.0;
     // Note: n must be even for Simpson's 1/3 Rule
-    let n_simp = [10, 20, 46, 78, 100]; 
+    let n_simp = [10, 20, 46, 77 /*To check what happens when we have an odd number */, 100]; 
 
     println!("\n--- Simpson's 1/3 Rule ---");
     for &n in &n_simp {
