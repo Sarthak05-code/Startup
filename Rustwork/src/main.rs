@@ -1,5 +1,5 @@
-use std::ops::{Add, Sub, Mul, Div, Neg, Index};
 use std::fmt::{self, Display, Formatter};
+use std::ops::{Add, Div, Index, Mul, Neg, Sub};
 
 // =============================================================================
 // 1. TYPE-SAFE N-DIMENSIONAL VECTOR (Const Generics + Zero-Cost)
@@ -53,7 +53,7 @@ impl<T: Copy + Add<Output = T>, const N: usize> Add for Vector<T, N> {
             self.data[i] = self.data[i] + rhs.data[i];
         }
         self
-    }
+        }
 }
 
 impl<T: Copy + Sub<Output = T>, const N: usize> Sub for Vector<T, N> {
