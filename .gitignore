@@ -71,3 +71,7 @@ $RECYCLE.BIN/
 # Custom exclusions from original file
 readme.md
 Rustwork/target/
+
+
+# Extra
+Project.txt
