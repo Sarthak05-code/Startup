@@ -1,16 +1,12 @@
 use std::f64::consts::PI;
 
-trait HasArea {
-    fn area(&self) -> f64;
-}
-
 struct Circle {
     radius: f64,
 }
 
 struct Rectangle {
-    width: f64,
-    height: f64,
+    length: f64,
+    breadth: f64,
 }
 
 impl Circle {
@@ -19,24 +15,46 @@ impl Circle {
     }
 }
 
-impl HasArea for Circle {
+trait PerimeterArea {
+    fn area(&self) -> f64;
+    fn perimeter(&self) -> f64;
+}
+
+impl PerimeterArea for Circle {
     fn area(&self) -> f64 {
         PI * self.radius * self.radius
     }
+
+    fn perimeter(&self) -> f64 {
+        2.0 * PI * self.radius
+    }
 }
 
-impl HasArea for Rectangle {
+impl PerimeterArea for Rectangle {
     fn area(&self) -> f64 {
-        self.width * self.height
+        self.length * self.breadth
+    }
+
+    fn perimeter(&self) -> f64 {
+        2.0 * (self.breadth + self.length)
     }
 }
 
 fn main() {
-    let circle = Circle::new(5.0);
+    let circle = Circle::new(12.0);
     let rectangle = Rectangle {
-        width: 5.0,
-        height: 10.0,
+        length: 14.0,
+        breadth: 19.0,
     };
-    println!("{:.2} is the area of circle. ", circle.area());
-    println!("{} is the area of rectangle. ", rectangle.area());
+
+    println!(
+        "{:.2} is the circle area, {:.2} is the circle perimeter",
+        circle.area(),
+        circle.perimeter()
+    );
+    println!(
+        "{:.2} is the rectangle area, {:.2} is the rectangle perimeter",
+        rectangle.area(),
+        rectangle.perimeter()
+    );
 }
