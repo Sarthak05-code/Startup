@@ -1,35 +1,42 @@
-struct _S;
-struct _GenericVal<T>(T);
+use std::f64::consts::PI;
 
-impl _GenericVal<f32> {}
-
-impl _GenericVal<_S> {}
-
-impl<T> _GenericVal<T> {}
-
-struct Val {
-    val: f64,
+trait HasArea {
+    fn area(&self) -> f64;
 }
 
-struct GenVal<T> {
-    gen_val: T,
+struct Circle {
+    radius: f64,
 }
 
-impl Val {
-    fn value(&self) -> &f64 {
-        &self.val
+struct Rectangle {
+    width: f64,
+    height: f64,
+}
+
+impl Circle {
+    fn new(radius: f64) -> Self {
+        Circle { radius }
     }
 }
 
-impl<T> GenVal<T> {
-    fn value(&self) -> &T {
-        &self.gen_val
+impl HasArea for Circle {
+    fn area(&self) -> f64 {
+        PI * self.radius * self.radius
+    }
+}
+
+impl HasArea for Rectangle {
+    fn area(&self) -> f64 {
+        self.width * self.height
     }
 }
 
 fn main() {
-    let x = Val { val: 3.0 };
-    let y = GenVal { gen_val: 3i32 };
-
-    println!("{} {} ", x.value(), y.value());
+    let circle = Circle::new(5.0);
+    let rectangle = Rectangle {
+        width: 5.0,
+        height: 10.0,
+    };
+    println!("{:.2} is the area of circle. ", circle.area());
+    println!("{} is the area of rectangle. ", rectangle.area());
 }
