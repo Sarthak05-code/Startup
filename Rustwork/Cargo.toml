@@ -3,4 +3,13 @@ name = "Rustwork"
 version = "0.1.0"
 edition = "2024"
 
+[[bin]]
+name = "main"
+path = "src/main.rs"
+
+[[bin]]
+name = "pin"
+path = "src/pin.rs"
+
+
 [dependencies]
