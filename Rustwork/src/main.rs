@@ -1,26 +1,19 @@
-#![allow(warnings)]
-use std::f64::consts::PI;
+use std::sync::atomic::{AtomicI32, Ordering};
 
-struct Shapes {
-    radius: f64,
-    length: f64,
-    breadth: f64,
-}
-trait Areas {
-    fn area(&self) -> f64;
-}
+static COUNTER: AtomicI32 = AtomicI32::new(0);
 
-impl Areas for Shapes {
-    fn area(&self) -> f64 {
-        PI * self.radius * self.radius
-    }
+fn name_caller(name: &str) -> i32 {
+    let count = COUNTER.fetch_add(1, Ordering::SeqCst) + 1;
+    println!("Hello {}", name);
+    count
 }
 
 fn main() {
-    let circle = Shapes {
-        radius: 12.0,
-        length: 12.0,
-        breadth: 12.0,
-    };
-    println!("{:.2} is the area", circle.area());
+    let name = String::from("Sarthak");
+
+    let count = name_caller(&name);
+    let count = name_caller(&name);
+    let count = name_caller(&name);
+
+    println!("The number in count : {count}");
 }
