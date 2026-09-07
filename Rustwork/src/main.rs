@@ -1,47 +1,24 @@
-#[allow(dead_code)]
-enum Base {
-    Binary,
-    Deciaml,
-    Octal,
-    Hexadecimal,
-}
-impl Base {
-    fn radix(self) -> u32 {
-        match self {
-            Base::Binary => 2,
-            Base::Deciaml => 10,
-            Base::Octal => 8,
-            Base::Hexadecimal => 16,
-        }
-    }
-}
-
-fn to_base(number: usize, base: Base, buffer: &mut [u8]) -> &str {
-    let radix = base.radix() as usize;
-    const DIGITS: &[u8] = b"0123456789abcdef";
-    if number == 0 {
-        buffer[0] = b'0';
-        return std::str::from_utf8(&buffer[..1]).unwrap();
-    }
-    let mut temp = number;
-    let mut index = 0;
-
-    while temp > 0 {
-        buffer[index] = DIGITS[temp % radix];
-        temp /= radix;
-        index += 1;
-    }
-
-    buffer[..index].reverse();
-    std::str::from_utf8(&buffer[..index]).unwrap()
-}
+use std::io;
 
 fn main() {
-    let mut buffer = [0u8; 64];
-    let binary = to_base(123, Base::Binary, &mut buffer);
-    println!("Binary = {binary}");
+    println!("Enter a word. ");
+    let mut char1 = String::new();
+    io::stdin().read_line(&mut char1).unwrap();
+    let char1 = char1.trim();
+    println!("Enter a second word. ");
+    let mut char2 = String::new();
+    io::stdin().read_line(&mut char2).unwrap();
+    let char2 = char2.trim();
 
-    let mut buffer2 = [0u8; 64];
-    let hex = to_base(2553, Base::Hexadecimal, &mut buffer2);
-    println!("The hex value is {hex}");
+    let mut byte1: Vec<char> = char1.chars().collect();
+    let mut byte2: Vec<char> = char2.chars().collect();
+
+    byte1.sort();
+    byte2.sort();
+
+    if byte1 == byte2 {
+        println!("The {char1} and {char2} are anagram. ");
+    } else {
+        println!("The {char1} and {char2} aren't anagram");
+    }
 }
