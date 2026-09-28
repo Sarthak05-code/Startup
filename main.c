@@ -4,6 +4,7 @@
 
 int main(void) {
   Arena *a = arena_create(1024);
+  Arena *zig = arena_create(1024 * 1024);
 
   arena_scope(a, {
     int *nums = arena_alloc(a, 100 * sizeof(int));
@@ -19,5 +20,6 @@ int main(void) {
   printf("Name : %s, Score : %d \n", player->name, player->score);
   printf("Total used : %zu bytes \n", arena_total_used(a));
   arena_destroy(a);
+  arena_destroy(zig);
   return 0;
 }
