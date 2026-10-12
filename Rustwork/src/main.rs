@@ -1,68 +1,76 @@
-use std::hash::Hasher;
+use std::{fmt::Display, ops::Rem};
 
-struct Fnv1a(u64);
-
-impl Default for Fnv1a {
-    fn default() -> Self {
-        Fnv1a(0xcbf29ce484222325)
+fn return_number(number: i32) -> Result<i32, String> {
+    if number % 2 == 0 {
+        return Err(String::from("Even Number Not allowed"));
     }
+
+    let answer = number / 2;
+    Ok(answer)
 }
 
-impl Hasher for Fnv1a {
-    fn finish(&self) -> u64 {
-        self.0
-    }
-    fn write(&mut self, bytes: &[u8]) {
-        for &b in bytes {
-            self.0 ^= b as u64;
-            self.0 = self.0.wrapping_mul(0x100000001b3);
-        }
-    }
+fn runner(value: i32) -> Result<(), String> {
+    let final_answer = return_number(value)?;
+
+    println!("The answer is : {final_answer}");
+
+    Ok(())
 }
 
-fn hash_password(password: &str) -> u64 {
-    let mut h = Fnv1a::default();
-    h.write(password.as_bytes());
-    h.finish()
+fn return_paragraph(text: &str) -> Result<String, String> {
+    if !text.starts_with('*') || !text.ends_with('*') {
+        return Err(String::from("The value is not formated correctly"));
+    }
+
+    let formatted = text.trim_matches('*');
+    Ok(format!("<p>{formatted}</p>"))
 }
 
-struct Login {
-    username: String,
-    password_hash: u64,
-    is_login: bool,
-}
+fn paragraph_runner(text: &str) -> Result<(), String> {
+    let result = return_paragraph(text)?;
+    println!("{result}");
 
-impl Login {
-    fn new(username: &str, password: &str) -> Self {
-        Login {
-            username: username.to_string(),
-            password_hash: hash_password(password),
-            is_login: false,
-        }
-    }
-
-    fn login(&mut self, attempt: &str) {
-        self.is_login = hash_password(attempt) == self.password_hash;
-        if self.is_login {
-            println!("Login successful.");
-        } else {
-            println!("Wrong password.");
-        }
-    }
-
-    fn show_data(&self) {
-        if !self.is_login {
-            println!("You aren't allowed to show data. Login to try again.");
-            return;
-        }
-        println!("Hello, {}", self.username);
-    }
+    Ok(())
 }
 
 fn main() {
-    let mut user = Login::new("Sarthak", "123456");
-    user.show_data(); // blocked
-    user.login("wrong"); // fails
-    user.login("123456"); // succeeds
-    user.show_data(); // allowed
+    if let Err(err) = runner(33) {
+        println!("Error : {err}")
+    }
+
+    if let Err(err) = paragraph_runner("*Hello, World") {
+        println!("Error : {err}")
+    }
+
+    print_max_value("Highest Score", 10, 20);
+    print_max_value("Highest Score in Percenatage", 10.0, 20.0);
+    print_max_value("Alphabetic Order", "Sarthak", "Sagar");
+}
+
+fn print_max_value<T>(label: &str, a: T, b: T)
+where
+    T: PartialOrd + Display,
+{
+    if a > b {
+        println!("{label} : {a}");
+    } else {
+        println!("{label} : {b}");
+    }
+
+    let answer = even_or_odd(10);
+    println!("Answer : {answer}")
+}
+
+fn even_or_odd<T>(a: T) -> String
+where
+    T: Rem<Output = T> + PartialEq + From<u8> + Copy,
+{
+    let zero = T::from(0u8);
+    let two = T::from(2u8);
+
+    if a % two == zero {
+        String::from("Even")
+    } else {
+        String::from("Odd")
+    }
 }
