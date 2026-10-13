@@ -46,6 +46,8 @@ fn main() {
     print_max_value("Highest Score in Percenatage", 10.0, 20.0);
     print_max_value("Alphabetic Order", "Sarthak", "Sagar");
     print_max_value("Boolean Order", true, false);
+    let answer = even_or_odd(10);
+    println!("Answer : {answer}");
 
     if is_vowel('a') {
         println!("Yes , a is an vowel.")
@@ -74,8 +76,7 @@ where
         println!("{label} : {b}");
     }
 
-    let answer = even_or_odd(10);
-    println!("Answer : {answer}")
+
 }
 
 fn even_or_odd<T>(a: T) -> String
