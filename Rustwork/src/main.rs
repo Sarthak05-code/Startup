@@ -45,6 +45,23 @@ fn main() {
     print_max_value("Highest Score", 10, 20);
     print_max_value("Highest Score in Percenatage", 10.0, 20.0);
     print_max_value("Alphabetic Order", "Sarthak", "Sagar");
+    print_max_value("Boolean Order", true, false);
+
+    if is_vowel('a') {
+        println!("Yes , a is an vowel.")
+    } else {
+        println!("No, not an vowel")
+    }
+}
+
+fn is_vowel(char: char) -> bool {
+    let vowels = ['a', 'e', 'i', 'o', 'u'];
+    for v in vowels {
+        if char == v {
+            return true;
+        }
+    }
+    false
 }
 
 fn print_max_value<T>(label: &str, a: T, b: T)
