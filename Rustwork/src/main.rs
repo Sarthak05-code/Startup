@@ -1,94 +1,60 @@
-use std::{fmt::Display, ops::Rem};
+use std::collections::HashMap;
 
-fn return_number(number: i32) -> Result<i32, String> {
-    if number % 2 == 0 {
-        return Err(String::from("Even Number Not allowed"));
-    }
-
-    let answer = number / 2;
-    Ok(answer)
+struct User {
+    id: u32,
+    username: String,
+    total_score: f64,
 }
 
-fn runner(value: i32) -> Result<(), String> {
-    let final_answer = return_number(value)?;
-
-    println!("The answer is : {final_answer}");
-
-    Ok(())
-}
-
-fn return_paragraph(text: &str) -> Result<String, String> {
-    if !text.starts_with('*') || !text.ends_with('*') {
-        return Err(String::from("The value is not formated correctly"));
-    }
-
-    let formatted = text.trim_matches('*');
-    Ok(format!("<p>{formatted}</p>"))
-}
-
-fn paragraph_runner(text: &str) -> Result<(), String> {
-    let result = return_paragraph(text)?;
-    println!("{result}");
-
-    Ok(())
-}
-
-fn main() {
-    if let Err(err) = runner(33) {
-        println!("Error : {err}")
-    }
-
-    if let Err(err) = paragraph_runner("*Hello, World") {
-        println!("Error : {err}")
-    }
-
-    print_max_value("Highest Score", 10, 20);
-    print_max_value("Highest Score in Percenatage", 10.0, 20.0);
-    print_max_value("Alphabetic Order", "Sarthak", "Sagar");
-    print_max_value("Boolean Order", true, false);
-    let answer = even_or_odd(10);
-    println!("Answer : {answer}");
-
-    if is_vowel('a') {
-        println!("Yes , a is an vowel.")
-    } else {
-        println!("No, not an vowel")
-    }
-}
-
-fn is_vowel(char: char) -> bool {
-    let vowels = ['a', 'e', 'i', 'o', 'u'];
-    for v in vowels {
-        if char == v {
-            return true;
+impl User {
+    fn new(id: u32, username: impl Into<String>, total_score: f64) -> Self {
+        Self {
+            id,
+            username: username.into(),
+            total_score,
         }
     }
-    false
 }
 
-fn print_max_value<T>(label: &str, a: T, b: T)
-where
-    T: PartialOrd + Display,
-{
-    if a > b {
-        println!("{label} : {a}");
-    } else {
-        println!("{label} : {b}");
+fn insert_user(storage: &mut HashMap<u32, User>, user: User) -> Result<(), String> {
+    if storage.contains_key(&user.id) {
+        return Err(format!("User with ID : {} already exists.", user.id));
     }
-
-
+    storage.insert(user.id, user);
+    Ok(())
 }
 
-fn even_or_odd<T>(a: T) -> String
-where
-    T: Rem<Output = T> + PartialEq + From<u8> + Copy,
-{
-    let zero = T::from(0u8);
-    let two = T::from(2u8);
+fn get_user(storage: &HashMap<u32, User>, id: u32) -> Option<&User> {
+    storage.get(&id)
+}
 
-    if a % two == zero {
-        String::from("Even")
-    } else {
-        String::from("Odd")
+fn print_all_users(storage: &HashMap<u32, User>) {
+    for (id, user) in storage.iter() {
+        println!(
+            "Key : {} || ID: {} || Name : {} || TotalMarks : {:.2}",
+            id, user.id, user.username, user.total_score
+        );
     }
+}
+
+fn main() -> Result<(), String> {
+    let mut user_storage: HashMap<u32, User> = HashMap::new();
+
+    insert_user(&mut user_storage, User::new(101, "Sarthak", 101.10))?;
+    insert_user(&mut user_storage, User::new(102, "Ram", 88.50))?;
+    insert_user(&mut user_storage, User::new(103, "Sita", 92.25))?;
+
+    print_all_users(&user_storage);
+
+    match get_user(&user_storage, 101) {
+        Some(user) => {
+            println!(
+                "Id : {} || Name : {} || TotalMarks : {:.2} \n",
+                user.id, user.username, user.total_score
+            )
+        }
+        None => println!("No user Found.\n"),
+    }
+
+    Ok(())
 }
