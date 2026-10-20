@@ -2,6 +2,8 @@
 #define ARENA_IMPL
 #include "arena.h"
 
+#include <stdbool.h>
+
 int main(void) {
   Arena *a = arena_create(1024);
   Arena *zig = arena_create(1024 * 1024);
@@ -21,5 +23,9 @@ int main(void) {
   printf("Total used : %zu bytes \n", arena_total_used(a));
   arena_destroy(a);
   arena_destroy(zig);
+
+  bool done = false;
+  int taskNo = 404;
+
   return 0;
 }
