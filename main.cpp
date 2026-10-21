@@ -1,4 +1,5 @@
 #include <iostream>
+
 #include <type_traits>
 
 using namespace std;
@@ -45,7 +46,7 @@ int main() {
   auto larger = 100000ll;   // long long
   auto largest = 100000ull; // usigned long long
   auto negative = nullptr;  // std::nullptr_t
-  auto option = NULL;       // NULL => long long ?
+  // auto option = NULL;       // NULL => long long ?
   // Dont think this is the way to do it, just the hint shows the name of the
   // function above and with a pointer.
   auto classer = new Caller(); // Caller *
@@ -64,6 +65,21 @@ int main() {
     cout << "True" << endl;
   else
     cout << "False" << endl;
+
+  int array[5] = {1, 2, 3, 4, 5};
+
+  for (auto arr : array) {
+    cout << "Number : " << arr << endl;
+  }
+
+  auto bytes = 1024ull;
+  auto kilobytes = 1024ull;
+
+  auto MegaByte = bytes * kilobytes;
+  cout << "The bytes allocated due to the result of kilobyte multiplication of "
+          "bytes is := "
+       << MegaByte << " bytes." << endl;
+  cout << "In terms of MB := " << MegaByte << "bytes / 1024 -> " << MegaByte / 1024 << "mb." << endl;
 
   return 0;
 }
