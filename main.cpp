@@ -1,89 +1,36 @@
 #include <iostream>
+#include <memory>
+#include <vector>
 
-#include <type_traits>
 
-using namespace std;
-/// NOTE : Practice 2 : Generics comparisons.
-// Understanding cpp generics via template, and doing random stuff with template
-//
+template <typename T> struct TreeNode {
+  T data;
+  std::vector<std::unique_ptr<TreeNode<T>>> children;
 
-/*
- * Here i attempted to use generic type `T` and generic type `C` , since they
- * can now hold different data type , made a boolean function to return true and
- * false if the type are same or not.
- */
-template <typename T, typename C> bool type_compare(T const &a, C const &b) {
-  // i assume the way it works is it.
-  // assume : a -> 12 => int and b -> true => boolean, now 12 != true and hence
-  // [False] else [True]. This is how i understand this since i have never used
-  // and comapred generics before.
-  // recently learned template and wanted to do random stuffs.
-  if (a == b) {
-    return true;
+  TreeNode(T val) : data(val) {}
+
+  // Add a child node
+  TreeNode<T> *addChild(T val) {
+    children.push_back(std::make_unique<TreeNode<T>>(val));
+    return children.back().get();
   }
-  return false;
-}
+};
 
-/// NOTE : Practice 3 : Proper way to check the data type and not the value
-/// inside the data type.
-template <typename T, typename C>
-constexpr bool same_type(const T &, const C &) {
-  return std::is_same_v<T, C>;
-}
-
-class Caller {};
-struct Test {};
-enum Tester {};
-
-// NOTE :  Practice 1 : using auto to test type inference. Pretty cool.
 int main() {
-  auto number = 10;         // int
-  auto name = "Sarthak";    // const char *
-  auto is_true = false;     // bool
-  auto amount = 10.20;      // double , not float?
-  auto amount_f = 10.20f;   // float
-  auto large = 100000l;     // long
-  auto larger = 100000ll;   // long long
-  auto largest = 100000ull; // usigned long long
-  auto negative = nullptr;  // std::nullptr_t
-  // auto option = NULL;       // NULL => long long ?
-  // Dont think this is the way to do it, just the hint shows the name of the
-  // function above and with a pointer.
-  auto classer = new Caller(); // Caller *
-  auto structer = new Test;    // Test *
-  auto enumer = new Tester;    // Tester *
+  // Create root node with value 1
+  TreeNode<int> root(1);
 
-  cout << "Number : " << number << " Name : " << name
-       << " Status : " << is_true // seems to return 0 for is_true
-       << endl;
+  // Add children to root
+  TreeNode<int> *child1 = root.addChild(2);
+  TreeNode<int> *child2 = root.addChild(3);
 
-  // Really digging the auto keyword here. similar to var which i used in java,
-  // i don't think there is any problem to permanently use auto comapred to just
-  // writing int, float, or double.
-  auto answer = type_compare(number, is_true);
-  if (answer)
-    cout << "True" << endl;
-  else
-    cout << "False" << endl;
+  // Add grandchild to child1
+  child1->addChild(4);
 
-  int array[5] = {1, 2, 3, 4, 5};
-
-  for (auto arr : array) {
-    cout << "Number : " << arr << endl;
-  }
-
-  auto bytes = 1024ull;
-  auto kilobytes = 1024ull;
-
-  auto MegaByte = bytes * kilobytes;
-  cout << "The bytes allocated due to the result of kilobyte multiplication of "
-          "bytes is := "
-       << MegaByte << " bytes." << endl;
-  cout << "In terms of MB := " << MegaByte << "bytes / 1024 -> " << MegaByte / 1024 << "mb." << endl;
-
-
-  
-  
+  std::cout << "Root data: " << root.data << '\n';
+  std::cout << "Child 1 data: " << root.children[0]->data << '\n';
+  std::cout << "Grandchild data: " << root.children[0]->children[0]->data
+            << '\n';
 
   return 0;
 }
