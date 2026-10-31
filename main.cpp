@@ -1,36 +1,26 @@
+#include <cstdint>
 #include <iostream>
-#include <memory>
-#include <vector>
+#include <string>
 
+typedef uint32_t u32;
+typedef uint8_t u8;
 
-template <typename T> struct TreeNode {
-  T data;
-  std::vector<std::unique_ptr<TreeNode<T>>> children;
-
-  TreeNode(T val) : data(val) {}
-
-  // Add a child node
-  TreeNode<T> *addChild(T val) {
-    children.push_back(std::make_unique<TreeNode<T>>(val));
-    return children.back().get();
+u32 fnv1a_hash(const std::string &str) {
+  u32 hash = 0x811c9dc5;
+  u32 prime = 0x01000193;
+  for (char c : str) {
+    hash ^= static_cast<u8>(c);
+    hash *= prime;
   }
-};
+
+  return hash;
+}
 
 int main() {
-  // Create root node with value 1
-  TreeNode<int> root(1);
-
-  // Add children to root
-  TreeNode<int> *child1 = root.addChild(2);
-  TreeNode<int> *child2 = root.addChild(3);
-
-  // Add grandchild to child1
-  child1->addChild(4);
-
-  std::cout << "Root data: " << root.data << '\n';
-  std::cout << "Child 1 data: " << root.children[0]->data << '\n';
-  std::cout << "Grandchild data: " << root.children[0]->children[0]->data
-            << '\n';
+  std::string data = "sarthak";
+  u32 hashValue = fnv1a_hash(data);
+  std::cout << "String : " << data << std::endl;
+  std::cout << "Hashed : 0x" << hashValue << std::endl;
 
   return 0;
 }
