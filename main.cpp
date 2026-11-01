@@ -1,12 +1,18 @@
 #include <iostream>
-#include <vector>
+#include <map>
+#include <string>
+#include <tuple>
+
 using namespace std;
 
 int main() {
-  vector<int> values = {1, 2, 3, 4, 5, 6, 7};
+  std::map<int, tuple<string, string, string>> users = {
+      {1, {"Sarthak", "Sagar", "Ayush"}}};
 
-  for (auto v : values) {
-    cout << v << " ";
+  for (auto const &[id, detail] : users) {
+    auto const &[_, email, _] = detail;
+
+    cout << "User ID: " << id << " Notification to: " << email << "\n";
   }
   return 0;
 }
