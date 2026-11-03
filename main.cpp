@@ -1,212 +1,318 @@
-#include <stdio.h>
-#include <stdlib.h>
 
-// Node structure
-struct Node {
-    int data;
-    struct Node* next;
+#include <iomanip>
+#include <iostream>
+#include <string>
+#include <vector>
+
+
+using namespace std;
+
+// ==========================================
+// 1. ENUMS
+// ==========================================
+
+enum class DamageType { Physical, Magic };
+
+enum class StatType {
+  Attack,
+  MagicPower,
+  CritRate,
+  CritDamage,
+  Lifesteal,
+  AttackSpeed,
+  CooldownReduction,
+  Mana
 };
 
-// Function to create a new node
-struct Node* createNode(int data)
-{
-    struct Node* newNode
-        = (struct Node*)malloc(sizeof(struct Node));
-    newNode->data = data;
-    newNode->next = NULL;
-    return newNode;
+// ==========================================
+// 2. STAT STRUCTURES
+// ==========================================
+
+// Represents one individual stat.
+struct Stat {
+  StatType stat_type;
+  double stat_value;
+};
+
+// Represents all stats belonging to an item.
+struct Stats {
+  vector<Stat> effects;
+};
+
+// ==========================================
+// 3. ITEM STRUCTURE
+// ==========================================
+
+struct Items {
+  string item_name;
+  DamageType damage_type;
+  string item_effect;
+  Stats item_stats;
+};
+
+// ==========================================
+// 4. CHARACTER BASE STATS
+// ==========================================
+
+struct CharacterStats {
+  string name;
+
+  // Base stats
+  double base_attack = 25;
+  double base_magic_power = 10;
+  double base_crit_rate = 0.05;
+  double base_crit_damage = 0.50;
+  double base_lifesteal = 0.0;
+  double base_attack_speed = 1.0;
+  double base_cooldown_reduction = 0.0;
+  double base_mana = 100;
+
+  // Equipped items
+  vector<Items> inventory;
+};
+
+// ==========================================
+// 5. FINAL CHARACTER STATS
+// ==========================================
+
+struct FinalStats {
+  double attack;
+  double magic_power;
+  double crit_rate;
+  double crit_damage;
+  double lifesteal;
+  double attack_speed;
+  double cooldown_reduction;
+  double mana;
+};
+
+// ==========================================
+// 6. HELPER FUNCTION
+// ==========================================
+
+string getStatName(StatType type) {
+
+  switch (type) {
+  case StatType::Attack:
+    return "Attack";
+
+  case StatType::MagicPower:
+    return "Magic Power";
+
+  case StatType::CritRate:
+    return "Crit Rate";
+
+  case StatType::CritDamage:
+    return "Crit Damage";
+
+  case StatType::Lifesteal:
+    return "Lifesteal";
+
+  case StatType::AttackSpeed:
+    return "Attack Speed";
+
+  case StatType::CooldownReduction:
+    return "Cooldown Reduction";
+
+  case StatType::Mana:
+    return "Mana";
+  }
+
+  return "Unknown";
 }
 
-// Function to insert a node at the beginning
-void insertAtBeginning(struct Node** head, int data)
-{
-    struct Node* newNode = createNode(data);
-    if (*head == NULL) {
-        *head = newNode;
-        newNode->next = *head;
-    }
-    else {
-        struct Node* temp = *head;
-        while (temp->next != *head) {
-            temp = temp->next;
-        }
-        temp->next = newNode;
-        newNode->next = *head;
-        *head = newNode;
-    }
+// ==========================================
+// 7. EQUIP ITEM
+// ==========================================
+
+void equipItem(CharacterStats &character, const Items &item) {
+
+  character.inventory.push_back(item);
+
+  cout << "\n" << item.item_name << " equipped by " << character.name << "!\n";
 }
 
-// Function to insert a node at the end
-void insertAtEnd(struct Node** head, int data)
-{
-    struct Node* newNode = createNode(data);
-    if (*head == NULL) {
-        *head = newNode;
-        newNode->next = *head;
+// ==========================================
+// 8. UNEQUIP ITEM
+// ==========================================
+
+void unequipItem(CharacterStats &character, const string &item_name) {
+
+  for (int i = 0; i < character.inventory.size(); i++) {
+
+    if (character.inventory[i].item_name == item_name) {
+
+      character.inventory.erase(character.inventory.begin() + i);
+
+      cout << "\n" << item_name << " unequipped!\n";
+      return;
     }
-    else {
-        struct Node* temp = *head;
-        while (temp->next != *head) {
-            temp = temp->next;
-        }
-        temp->next = newNode;
-        newNode->next = *head;
-    }
+  }
+
+  cout << "\nItem not found in inventory.\n";
 }
 
-// Function to insert a node at a specific position
-void insertAtPosition(struct Node** head, int data,
-                      int position)
-{
-    struct Node* newNode = createNode(data);
-    if (*head == NULL && position == 0) {
-        *head = newNode;
-        newNode->next = *head;
+// ==========================================
+// 9. CALCULATE FINAL CHARACTER STATS
+// ==========================================
+
+FinalStats calculateStats(const CharacterStats &character) {
+
+  // Start with base stats.
+  FinalStats final_stats = {character.base_attack,
+                            character.base_magic_power,
+                            character.base_crit_rate,
+                            character.base_crit_damage,
+                            character.base_lifesteal,
+                            character.base_attack_speed,
+                            character.base_cooldown_reduction,
+                            character.base_mana};
+
+  // Iterate through equipped items.
+  for (const Items &item : character.inventory) {
+
+    // Iterate through each item's effects.
+    for (const Stat &stat : item.item_stats.effects) {
+
+      switch (stat.stat_type) {
+
+      case StatType::Attack:
+        final_stats.attack += stat.stat_value;
+        break;
+
+      case StatType::MagicPower:
+        final_stats.magic_power += stat.stat_value;
+        break;
+
+      case StatType::CritRate:
+        final_stats.crit_rate += stat.stat_value;
+        break;
+
+      case StatType::CritDamage:
+        final_stats.crit_damage += stat.stat_value;
+        break;
+
+      case StatType::Lifesteal:
+        final_stats.lifesteal += stat.stat_value;
+        break;
+
+      case StatType::AttackSpeed:
+        final_stats.attack_speed += stat.stat_value;
+        break;
+
+      case StatType::CooldownReduction:
+        final_stats.cooldown_reduction += stat.stat_value;
+        break;
+
+      case StatType::Mana:
+        final_stats.mana += stat.stat_value;
+        break;
+      }
     }
-    else if (position == 0) {
-        insertAtBeginning(head, data);
-    }
-    else {
-        struct Node* temp = *head;
-        int i = 0;
-        while (i < position - 1) {
-            temp = temp->next;
-            i++;
-        }
-        newNode->next = temp->next;
-        temp->next = newNode;
-    }
+  }
+
+  return final_stats;
 }
 
-// Function to delete a node from the beginning
-void deleteFromBeginning(struct Node** head)
-{
-    if (*head == NULL) {
-        return;
-    }
-    else if ((*head)->next == *head) {
-        free(*head);
-        *head = NULL;
-    }
-    else {
-        struct Node* temp = *head;
-        while (temp->next != *head) {
-            temp = temp->next;
-        }
-        temp->next = (*head)->next;
-        struct Node* toDelete = *head;
-        *head = (*head)->next;
-        free(toDelete);
-    }
+// ==========================================
+// 10. DISPLAY CHARACTER STATS
+// ==========================================
+
+void displayCharacter(const CharacterStats &character) {
+
+  FinalStats stats = calculateStats(character);
+
+  cout << "\n========== CHARACTER ==========\n";
+
+  cout << "Name: " << character.name << endl;
+
+  cout << "\nEquipped Items:\n";
+
+  if (character.inventory.empty()) {
+    cout << "No items equipped.\n";
+  }
+
+  for (const Items &item : character.inventory) {
+    cout << "- " << item.item_name << endl;
+  }
+
+  cout << "\n========== FINAL STATS ==========\n";
+
+  cout << fixed << setprecision(2);
+
+  cout << "Attack: " << stats.attack << endl;
+  cout << "Magic Power: " << stats.magic_power << endl;
+
+  cout << "Crit Rate: " << stats.crit_rate * 100 << "%\n";
+  cout << "Crit Damage: " << stats.crit_damage * 100 << "%\n";
+
+  cout << "Lifesteal: " << stats.lifesteal * 100 << "%\n";
+
+  cout << "Attack Speed: " << stats.attack_speed << endl;
+
+  cout << "Cooldown Reduction: " << stats.cooldown_reduction * 100 << "%\n";
+
+  cout << "Mana: " << stats.mana << endl;
+
+  cout << "=================================\n";
 }
 
-// Function to delete a node from the end
-void deleteFromEnd(struct Node** head)
-{
-    if (*head == NULL) {
-        return;
-    }
-    else if ((*head)->next == *head) {
-        free(*head);
-        *head = NULL;
-    }
-    else {
-        struct Node* secondLast = *head;
-        while (secondLast->next->next != *head) {
-            secondLast = secondLast->next;
-        }
-        struct Node* last = secondLast->next;
-        secondLast->next = *head;
-        free(last);
-    }
-}
+// ==========================================
+// 11. MAIN
+// ==========================================
 
-// Function to delete a node from a specific position
-void deleteAtPosition(struct Node** head, int position)
-{
-    if (*head == NULL) {
-        return;
-    }
-    else if (position == 0) {
-        deleteFromBeginning(head);
-    }
-    else {
-        struct Node* temp = *head;
-        int i = 0;
-        while (i < position - 1) {
-            temp = temp->next;
-            i++;
-        }
-        struct Node* toDelete = temp->next;
-        temp->next = temp->next->next;
-        free(toDelete);
-    }
-}
+int main() {
 
-// Function to traverse and print the circular linked list
-void traverse(struct Node* head)
-{
-    if (head == NULL) {
-        return;
-    }
-    struct Node* temp = head;
-    do {
-        printf("%d -> ", temp->data);
-        temp = temp->next;
-    } while (temp != head);
-    printf("HEAD\n");
-}
+  // Create items.
+  Items sword = {"Warrior Sword",
+                 DamageType::Physical,
+                 "Increases physical damage.",
+                 {{{StatType::Attack, 12},
+                   {StatType::CritRate, 0.15},
+                   {StatType::Lifesteal, 0.08},
+                   {StatType::AttackSpeed, 0.10}}}};
 
-// Function to search for a node with a given key
-int search(struct Node* head, int key)
-{
-    if (head == NULL) {
-        return 0;
-    }
-    struct Node* temp = head;
-    do {
-        if (temp->data == key) {
-            return 1; // Key found
-        }
-        temp = temp->next;
-    } while (temp != head);
-    return 0; // Key not found
-}
+  Items magic_wand = {"Magic Wand",
+                      DamageType::Magic,
+                      "Increases magical damage.",
+                      {{{StatType::MagicPower, 25},
+                        {StatType::Mana, 100},
+                        {StatType::CooldownReduction, 0.10}}}};
 
-// Driver program
-int main()
-{
-    struct Node* head = NULL;
+  Items critical_blade = {
+      "Critical Blade",
+      DamageType::Physical,
+      "Increases critical damage.",
+      {{{StatType::Attack, 20}, {StatType::CritDamage, 0.50}}}};
 
-    // Insertion
-    insertAtEnd(&head, 10);
-    insertAtEnd(&head, 20);
-    insertAtBeginning(&head, 5);
-    insertAtPosition(&head, 15, 2);
+  // Create character.
+  CharacterStats player;
 
-    // Traversal
-    printf("Circular Linked List: ");
-    traverse(head);
+  player.name = "Warrior";
 
-    // Deletion
-    deleteFromEnd(&head);
-    deleteAtPosition(&head, 1);
+  // Display base character stats.
+  cout << "\nBEFORE EQUIPPING ITEMS";
+  displayCharacter(player);
 
-    // Traversal after deletion
-    printf("Circular Linked List after deletion: ");
-    traverse(head);
+  // Equip items.
+  equipItem(player, sword);
+  equipItem(player, magic_wand);
 
-    // Searching
-    int key = 10;
-    if (search(head, key)) {
-        printf("Element %d is found in the linked list.\n",
-               key);
-    }
-    else {
-        printf(
-            "Element %d is not found in the linked list.\n",
-            key);
-    }
+  // Display updated character stats.
+  cout << "\nAFTER EQUIPPING ITEMS";
+  displayCharacter(player);
 
-    return 0;
+  // Equip another item.
+  equipItem(player, critical_blade);
+
+  cout << "\nAFTER EQUIPPING THIRD ITEM";
+  displayCharacter(player);
+
+  // Unequip an item.
+  unequipItem(player, "Warrior Sword");
+
+  cout << "\nAFTER UNEQUIPPING WARRIOR SWORD";
+  displayCharacter(player);
+
+  return 0;
 }
