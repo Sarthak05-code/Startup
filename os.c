@@ -1,64 +1,97 @@
-#include <pthread.h>
-#include <semaphore.h>
+
+#include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
-#define NUM_OF_PHILOSOPHER 5
 
-sem_t room;
-sem_t chopsticks[NUM_OF_PHILOSOPHER];
+#define P 5
+#define R 3
 
-void *Philosopher(void *num) {
-  int id = *(int *)num;
+int main() {
 
-  while (1) {
-    printf("Philosopher %d is thinking.\n", id);
-    sleep(1);
+  // Currently allocated resources
+  int alloc[P][R] = {{0, 1, 0}, {2, 0, 0}, {3, 0, 3}, {2, 1, 1}, {0, 0, 2}};
 
-    sem_wait(&room);
-    printf("Philosopher %d enters the room. \n", id);
+  // Remaining resource requests
+  int request[P][R] = {{0, 0, 0}, {2, 0, 2}, {0, 0, 0}, {1, 0, 0}, {0, 0, 2}};
 
-    sem_wait(&chopsticks[id]);
-    sem_wait(&chopsticks[(id + 1) % NUM_OF_PHILOSOPHER]);
+  // Currently available resources
+  int avail[R] = {0, 0, 0};
 
-    printf("Philosopher %d is eating using chopsticks : %d and %d.\n", id, id,
-           (id + 1) & NUM_OF_PHILOSOPHER);
+  int work[R];
+  bool finish[P] = {false};
 
-    sleep(2);
-
-    sem_post(&chopsticks[(id + 1) & NUM_OF_PHILOSOPHER]);
-    sem_post(&chopsticks[id]);
-
-    printf("Philosopher %d has finished eating.\n", id);
-    sem_post(&room);
-  }
-  return NULL;
-}
-
-int main(void) {
-  pthread_t threads[NUM_OF_PHILOSOPHER];
-  int philosopher_ids[NUM_OF_PHILOSOPHER];
-
-  sem_init(&room, 0, NUM_OF_PHILOSOPHER - 1);
-
-  for (int i = 0; i < NUM_OF_PHILOSOPHER; ++i) {
-    sem_init(&chopsticks[i], 0, 1);
+  // Step 1: Initialize Work = Available
+  for (int j = 0; j < R; j++) {
+    work[j] = avail[j];
   }
 
-  for (int i = 0; i < NUM_OF_PHILOSOPHER; ++i) {
-    philosopher_ids[i] = i;
-    pthread_create(&threads[i], NULL, Philosopher, &philosopher_ids[i]);
+  // Step 2: Mark processes holding no resources as finished
+  for (int i = 0; i < P; i++) {
+    bool holding_resources = false;
+
+    for (int j = 0; j < R; j++) {
+      if (alloc[i][j] != 0) {
+        holding_resources = true;
+        break;
+      }
+    }
+
+    if (!holding_resources) {
+      finish[i] = true;
+    }
   }
 
-  for (int i = 0; i < NUM_OF_PHILOSOPHER; ++i) {
-    pthread_join(threads[i], NULL);
+  // Step 3: Deadlock Detection
+  bool found;
+
+  do {
+    found = false;
+
+    for (int i = 0; i < P; i++) {
+
+      if (!finish[i]) {
+
+        bool can_finish = true;
+
+        // Check Request <= Work
+        for (int j = 0; j < R; j++) {
+          if (request[i][j] > work[j]) {
+            can_finish = false;
+            break;
+          }
+        }
+
+        // If process can finish, release its resources
+        if (can_finish) {
+
+          for (int j = 0; j < R; j++) {
+            work[j] += alloc[i][j];
+          }
+
+          finish[i] = true;
+          found = true;
+        }
+      }
+    }
+
+  } while (found);
+
+  // Step 4: Check for deadlocked processes
+  bool deadlock = false;
+
+  printf("Deadlocked processes: ");
+
+  for (int i = 0; i < P; i++) {
+    if (!finish[i]) {
+      printf("P%d ", i);
+      deadlock = true;
+    }
   }
 
-  sem_destroy(&room);
-
-  for (int i = 0; i < NUM_OF_PHILOSOPHER; ++i) {
-    sem_destroy(&chopsticks[i]);
+  if (deadlock) {
+    printf("\nSYSTEM IS IN DEADLOCK\n");
+  } else {
+    printf("None\nSYSTEM IS NOT IN DEADLOCK\n");
   }
 
   return 0;
