@@ -6,8 +6,8 @@ fn main() {
     let growth_percentage = ((current_amount - past_amount) / past_amount) * 100.0;
     println!("The amount increased by: {growth_percentage:.2}%");
 
-    let number = 1000;
+    let number = 10;
     for i in 0..number {
-        print!("Calling helper");
+        println!("Calling helper : {}", i + 1);
     }
 }
