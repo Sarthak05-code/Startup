@@ -59,7 +59,7 @@ fn print_frequency(freq: &[usize; 26]) {
     let mut pairs: Vec<(char, usize)> = freq
         .iter()
         .enumerate()
-        .filter(|(_, &count)| count > 0)
+        .filter(|&(_, &count)| count > 0)
         .map(|(i, &count)| ((b'a' + i as u8) as char, count))
         .collect();
 
