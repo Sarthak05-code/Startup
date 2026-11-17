@@ -1,10 +1,18 @@
-use std::{fs::OpenOptions, io::Read};
+use std::io::{self, Write};
 
-fn main() -> std::io::Result<()> {
-    let mut sql = OpenOptions::new().read(true).open("sql.txt")?;
+fn main() {
+    println!("Enter ip-address : ");
+    io::stdout().flush().unwrap();
+    let mut ip_address = String::new();
+    io::stdin()
+        .read_line(&mut ip_address)
+        .expect("Failed to read user input");
 
-    let mut text = String::new();
-    sql.read_to_string(&mut text)?;
-    println!("{}", text);
-    Ok(())
+    let ip_address = ip_address.trim();
+    println!("Your ip address is : {ip_address}");
+
+    for octals in ip_address.split(".") {
+        let n: u8 = octals.parse().expect("Failed to parse");
+        println!("{n:>3} -> {:08b}", n);
+    }
 }
