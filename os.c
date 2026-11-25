@@ -1,24 +1,43 @@
-
-
-#define WIN32_LEAN_AND_MEAN
 #include <stdio.h>
-#include <windows.h>
+
+#define BASE_SPEED 107.0
+#define SPEED_THRESHOLD 140.0
+#define BASE_ELATION_PERCENTAGE 0.0
+#define ELATION_PERCENTAGE 40.0
+#define ELATION_PERCENTAGE 40.0
+#define MAX_ELATION_PERCENTAGE 100.0
+
+#define MAX_SPEED_TO_ELATION_LIMIT (MAX_ELATION_PERCENTAGE - ELATION_PERCENTAGE)
+
+typedef struct {
+  double speed;
+  double elation_percentage;
+} Stats;
 
 int main(void) {
-  HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-  SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
-  printf("This is bright red text.\n");
+  Stats stats;
 
-  SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-  printf("This is bright green text.\n");
+  stats.speed = BASE_SPEED;
+  stats.elation_percentage = BASE_ELATION_PERCENTAGE;
 
-  SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_RED |
-                                        FOREGROUND_INTENSITY);
-  printf("This is bright purple text.\n");
+  stats.speed += 150; // 107 + 150 = 257 -> despite a lot of speed , the code
+                      // won't overcap elation
 
-  SetConsoleTextAttribute(hConsole,
-                          FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-  printf("Back to normal.\n");
+  if (stats.speed == SPEED_THRESHOLD) {
+    stats.elation_percentage = ELATION_PERCENTAGE;
+  } else if (stats.speed > SPEED_THRESHOLD) {
+    double extra_bonus = stats.speed - SPEED_THRESHOLD;
+
+    if (extra_bonus > MAX_SPEED_TO_ELATION_LIMIT) {
+      stats.elation_percentage = 100.0;
+    } else {
+
+      stats.elation_percentage = ELATION_PERCENTAGE + extra_bonus;
+    }
+  }
+
+  printf("Final speed: %.2lf\n", stats.speed);
+  printf("Final elation: %.2lf%%\n", stats.elation_percentage);
 
   return 0;
 }
