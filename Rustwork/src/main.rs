@@ -1,61 +1,42 @@
-use std::fs::File;
-use std::io::{self, Read};
+#![allow(unused)]
 
-const BYTES_PER_LINE: usize = 16;
+#[allow(non_camel_case_types)]
+struct BaseStats;
+
+impl BaseStats {
+    const BASE_SPEED: f64 = 107.0;
+    const SPEED_THRESHOLD: f64 = 140.0;
+    const BASE_ELATION_PERCENTAGE: f64 = 0.0;
+    const ELATION_PERCENTAGE: f64 = 40.0;
+    const MAX_ELATION_PERCENTAGE: f64 = 100.0;
+    const MAX_ELATION_TO_SPEED_LIMIT: f64 =
+        BaseStats::MAX_ELATION_PERCENTAGE - BaseStats::ELATION_PERCENTAGE;
+}
 
 fn main() {
-    // 1. Ask for the filename
-    let mut filename = String::new();
+    // Try changing this to 140.0, 145.0, or 250.0 to test the math!
+    let mut speed = 145.0;
+    let mut elation_percentage = BaseStats::BASE_ELATION_PERCENTAGE;
 
-    print!("Enter filename: ");
+    println!("The current speed: {speed:.2} and base elation(not calculated): {elation_percentage:.2}");
 
-    io::Write::flush(&mut io::stdout()).unwrap();
-
-    io::stdin()
-        .read_line(&mut filename)
-        .expect("Failed to read filename");
-
-    let filename = filename.trim();
-
-    // 2. Open the file
-    let mut file = File::open(filename).expect("Could not open file");
-
-    // 3. Read the file into a byte vector
-    let mut buffer = Vec::new();
-
-    file.read_to_end(&mut buffer).expect("Could not read file");
-
-    // 4. Display the hex dump
-    println!("\nOffset       Hexadecimal                                      ASCII");
-    println!("--------------------------------------------------------------------------");
-
-    for (line_number, chunk) in buffer.chunks(BYTES_PER_LINE).enumerate() {
-        // Calculate the offset
-        let offset = line_number * BYTES_PER_LINE;
-
-        print!("{:08X}   ", offset);
-
-        // Display hexadecimal bytes
-        for byte in chunk {
-            print!("{:02X} ", byte);
+    // Using >= handles both the exact threshold and values beyond it safely
+    if speed >= BaseStats::SPEED_THRESHOLD {
+        if speed == BaseStats::SPEED_THRESHOLD {
+            println!("Bonus damage percentage at exact `140` activated.");
         }
 
-        // Fill empty spaces for incomplete rows
-        for _ in chunk.len()..BYTES_PER_LINE {
-            print!("   ");
+        // Calculate how much speed exceeded the 140.0 threshold
+        let extra_speed = speed - BaseStats::SPEED_THRESHOLD;
+
+        // Caps the elation percentage safely to MAX_ELATION_PERCENTAGE (100.0)
+        if extra_speed > BaseStats::MAX_ELATION_TO_SPEED_LIMIT {
+            elation_percentage = BaseStats::MAX_ELATION_PERCENTAGE;
+        } else {
+            elation_percentage = BaseStats::ELATION_PERCENTAGE + extra_speed;
         }
-
-        print!("  ");
-
-        // Display ASCII characters
-        for byte in chunk {
-            if byte.is_ascii_graphic() || *byte == b' ' {
-                print!("{}", *byte as char);
-            } else {
-                print!(".");
-            }
-        }
-
-        println!();
     }
+
+    println!("Final speed : {speed:.2}");
+    println!("Final elation : {elation_percentage:.2}");
 }
